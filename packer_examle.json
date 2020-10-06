@@ -1,0 +1,27 @@
+#buillder = Is used for build the image
+Define the desired platform and platform configuration, desired source images
+{
+    "variables": {
+        "aws_access_key": "access_key", 									 # -----> prvode the access_key		
+        "aws_secret_key": "secret_key"  									 # -----> provide th secret_key
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs", 											 #= define the builder
+            "access_key": "{{user `aws_access_key`}}", 						 #= calling variable aws access_key 
+            "secret_key": "{{user `aws_secret_key`}}", 						 #= calling variable aws secret_key
+            "region": "us-east-1",  										 #= define the region where you want place an image 
+            "instance_type": "t2.micro",									 #= define hardware config, we can change it flavor we want
+            "ami-name": "first-ami-test-{{timestamp}}",						 #= type of the ami we are going to create/generate and timestamp will append timestamp to ami
+            "source_ami_filter": {	 										 #= source image we wanted to use here 
+                "filters": {												 #= applying filters to filter the image name
+                    "virtualization-type": "hvm",							 #= virtualization-type
+                    "name": "ubuntu/images/image name", 
+                    "root-device-type": "ebs"
+                },
+            "owners": [""],   
+            "most_recent": true
+            }
+        }
+    ]
+}
